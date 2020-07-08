@@ -1,0 +1,6 @@
+name: EventPoints
+version: @version@
+main: com.github.mori01231.eventpoints.EventPoints
+api-version: 1.15
+authors: [Mori01231]
+description: Allows servers to create Event Points for different occasions.
