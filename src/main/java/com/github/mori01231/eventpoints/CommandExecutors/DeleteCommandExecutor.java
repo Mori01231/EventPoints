@@ -34,33 +34,37 @@ public class DeleteCommandExecutor implements CommandExecutor {
             isConsole = true;
         }
 
+        BukkitRunnable r = new BukkitRunnable() {
+            @Override
+            public void run() {
+                //This is where you should do your database interaction
+
+                try {
+                    openConnection();
+                    Statement statement = connection.createStatement();
+
+                    ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
+                    if (result.next() == false) {
+                        FeedBack("&c" + DatabaseName + "という名前のイベントポイントは現在存在しません。");
+                    } else {
+                        statement.executeUpdate("DROP TABLE " + DatabaseName);
+                        FeedBack("&e" + DatabaseName + "を削除しました。");
+                    }
+
+                } catch(ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
+                }
+                this.cancel();
+            }
+        };
+
         r.runTaskAsynchronously(EventPoints.getInstance());
+
 
         return true;
     }
 
-    BukkitRunnable r = new BukkitRunnable() {
-        @Override
-        public void run() {
-            //This is where you should do your database interaction
 
-            try {
-                openConnection();
-                Statement statement = connection.createStatement();
-
-                ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
-                if (result.next() == false) {
-                    FeedBack("&e" + DatabaseName + "という名前のイベントポイントは現在存在しません。");
-                } else {
-                    statement.executeUpdate("DROP TABLE " + DatabaseName);
-                    FeedBack("&c" + DatabaseName + "を削除しました。");
-                }
-
-            } catch(ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
     public void openConnection() throws SQLException, ClassNotFoundException {
 
