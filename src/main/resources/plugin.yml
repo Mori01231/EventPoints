@@ -1,6 +1,30 @@
 name: EventPoints
 version: @version@
 main: com.github.mori01231.eventpoints.EventPoints
-api-version: 1.15
 authors: [Mori01231]
 description: Allows servers to create Event Points for different occasions.
+
+commands:
+  eventpointcreate:
+    description: イベントポイントを新たに作成する
+    aliases: [epc,epcreate]
+    permission: eventpoint.create
+    usage: 使用方法：/epc イベントポイント名 例：/epc lgw_summer_2020
+  eventpointadd:
+    description: イベントポイントをユーザーに追加する。
+    aliases: [epa,epadd]
+    permission: eventpoint.add
+    usage: 使用方法：/epa プレイヤー名 イベントポイント名 ポイント数 例：/epa Mori01231 lgw_summer_2020 10
+
+permissions:
+  eventpoint.*:
+    description: 全EventPointコマンドへのアクセス権限
+    children:
+      eventpoint.create: true
+      eventpoint.add: true
+  eventpoint.create:
+    description: イベントポイントを新たに作成することが可能になる。
+    default: false
+  eventpoint.add:
+    description: イベントポイントをユーザーに追加することが可能になる。
+    default: false

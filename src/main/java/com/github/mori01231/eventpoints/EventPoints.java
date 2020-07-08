@@ -1,5 +1,6 @@
 package com.github.mori01231.eventpoints;
 
+import com.github.mori01231.eventpoints.CommandExecutors.CreateCommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
@@ -16,13 +17,17 @@ public final class EventPoints extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        //Assign command executors
+        this.getCommand("eventpointcreate").setExecutor(new CreateCommandExecutor());
+
         this.saveDefaultConfig();
 
         host = getConfig().getString("host");
         port = getConfig().getInt("port");
         database = getConfig().getString("database");
         username = getConfig().getString("username");
-        password = getConfig().getString("Password");
+        password = getConfig().getString("password");
 
         try {
             openConnection();
