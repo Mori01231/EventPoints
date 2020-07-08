@@ -10,11 +10,17 @@ commands:
     aliases: [epc,epcreate]
     permission: eventpoint.create
     usage: 使用方法：/epc イベントポイント名 例：/epc lgw_summer_2020
+  eventpointdelete:
+    description: イベントポイントを削除する。
+    aliases: [epd,epdelete]
+    permission: eventpoint.delete
+    usage: 使用方法：/epd イベントポイント名 例：/epd lgw_summer_2020
   eventpointadd:
     description: イベントポイントをユーザーに追加する。
     aliases: [epa,epadd]
     permission: eventpoint.add
     usage: 使用方法：/epa プレイヤー名 イベントポイント名 ポイント数 例：/epa Mori01231 lgw_summer_2020 10
+
 
 permissions:
   eventpoint.*:
@@ -22,8 +28,12 @@ permissions:
     children:
       eventpoint.create: true
       eventpoint.add: true
+      eventpoint.delete: true
   eventpoint.create:
     description: イベントポイントを新たに作成することが可能になる。
+    default: false
+  eventpoint.delete:
+    description: イベントポイントを削除することが可能になる。
     default: false
   eventpoint.add:
     description: イベントポイントをユーザーに追加することが可能になる。
