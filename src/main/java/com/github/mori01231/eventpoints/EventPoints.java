@@ -62,6 +62,14 @@ public final class EventPoints extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        try { //using a try catch to catch connection errors (like wrong sql password...)
+            if (connection!=null && !connection.isClosed()){ //checking if connection isn't null to
+                //avoid receiving a nullpointer
+                connection.close(); //closing the connection field variable.
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void openConnection() throws SQLException, ClassNotFoundException {
