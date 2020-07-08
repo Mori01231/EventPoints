@@ -39,7 +39,7 @@ public class CreateCommandExecutor implements CommandExecutor {
                 openConnection();
                 Statement statement = connection.createStatement();
 
-                statement.executeQuery("CREATE TABLE IF NOT EXISTS '" + DatabaseName + "' ('PlayerUUID' varchar(36), 'points' int)");
+                statement.executeUpdate("CREATE TABLE IF NOT EXISTS `" + DatabaseName + "` (`PlayerUUID` varchar(36), `points` int)");
 
 
             } catch(ClassNotFoundException | SQLException e) {
