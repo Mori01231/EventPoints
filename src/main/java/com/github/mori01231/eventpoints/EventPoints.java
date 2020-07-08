@@ -1,5 +1,6 @@
 package com.github.mori01231.eventpoints;
 
+import com.github.mori01231.eventpoints.CommandExecutors.AddCommandExecutor;
 import com.github.mori01231.eventpoints.CommandExecutors.CreateCommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,7 +23,6 @@ public final class EventPoints extends JavaPlugin {
     private String host, database, username, password;
     private int port;
 
-    public Statement statement;
 
     @Override
     public void onEnable() {
@@ -31,6 +31,7 @@ public final class EventPoints extends JavaPlugin {
         //Assign command executors
         try{
             this.getCommand("eventpointcreate").setExecutor(new CreateCommandExecutor());
+            this.getCommand("eventpointadd").setExecutor(new AddCommandExecutor());
         }catch(NullPointerException e){
             getLogger().info("Command Executor does not exist");
         }
@@ -48,8 +49,7 @@ public final class EventPoints extends JavaPlugin {
 
         try {
             openConnection();
-            statement = connection.createStatement();
-
+            Statement statement = connection.createStatement();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

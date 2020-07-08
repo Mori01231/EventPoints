@@ -8,6 +8,8 @@ version = '1.0.0'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'
+
 repositories {
     mavenCentral()
     maven {
@@ -27,5 +29,6 @@ dependencies {
 processResources {
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
+        filteringCharset = 'UTF-8'
     }
 }
