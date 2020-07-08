@@ -49,7 +49,7 @@ public class CreateCommandExecutor implements CommandExecutor {
                     ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
                     if (result.next() == false) {
                         FeedBack("&e" + DatabaseName + "という名前のイベントポイントは現在存在しません。");
-                        statement.executeUpdate("CREATE TABLE IF NOT EXISTS `" + DatabaseName + "` (`PlayerUUID` varchar(36), `points` int)");
+                        statement.executeUpdate("CREATE TABLE IF NOT EXISTS `" + DatabaseName + "` (`PlayerUUID` TEXT, `points` int)");
                         FeedBack("&e新たに" + DatabaseName + "イベントポイントを作成しました。");
                     } else {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントはすでに存在します。別の名前のイベントポイントを作成するか、一度このイベントポイントを削除し、再度作ってください。");

@@ -65,8 +65,15 @@ public class AddCommandExecutor implements CommandExecutor {
                     if (result.next() == false) {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epc " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
-                        statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES (" + addPlayerUUID + ", " + addPoints + ");");
-                        FeedBack("&e" + DatabaseName + "を" + addPlayer + "に" + addPoints + "ポイント付与しました。");
+                        ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + addPlayerUUID + "';");
+                        if (findPlayer.next() == false) {
+                            statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + addPlayerUUID + "', '" + addPoints + "');");
+                            FeedBack("&e" + addPlayer + "に" + DatabaseName + "を" + addPoints + "ポイント付与しました。");
+                        } else {
+                            FeedBack("&c現在" + findPlayer.getString("points") + "ポイント所持しています。");
+                        }
+
+                        //FeedBack("&e" + DatabaseName + "を" + addPlayer + "に" + addPoints + "ポイント付与しました。");
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
