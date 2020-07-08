@@ -74,8 +74,8 @@ public class AddCommandExecutor implements CommandExecutor {
                             points = points + addPoints;
                             statement.executeUpdate("DELETE FROM `" + DatabaseName + "` WHERE PlayerUUID = '" + addPlayerUUID + "';");
                             statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + addPlayerUUID + "', '" + points + "');");
-                            FeedBack("&e" + addPlayer + "に" + DatabaseName + "を" + addPoints + "ポイント付与しました。");
-                            FeedBack("&e現在" + DatabaseName + "を" + points + "ポイント所持しています。");
+                            FeedBack("&e" + addPlayer + "に" + DatabaseName + "を&e&l" + addPoints + "&eポイント付与しました。");
+                            FeedBack("&e現在" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
                         }
 
                         //FeedBack("&e" + DatabaseName + "を" + addPlayer + "に" + addPoints + "ポイント付与しました。");
