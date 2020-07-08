@@ -10,16 +10,31 @@ import java.sql.Statement;
 
 public final class EventPoints extends JavaPlugin {
 
-    private Connection connection;
+    private static EventPoints instance;
+    public EventPoints (){
+        instance = this;
+    }
+    public static EventPoints getInstance() {
+        return instance;
+    }
+
+    public Connection connection;
     private String host, database, username, password;
     private int port;
+
+    public Statement statement;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
 
         //Assign command executors
-        this.getCommand("eventpointcreate").setExecutor(new CreateCommandExecutor());
+        try{
+            this.getCommand("eventpointcreate").setExecutor(new CreateCommandExecutor());
+        }catch(NullPointerException e){
+            getLogger().info("Command Executor does not exist");
+        }
+
 
         this.saveDefaultConfig();
 
@@ -29,9 +44,12 @@ public final class EventPoints extends JavaPlugin {
         username = getConfig().getString("username");
         password = getConfig().getString("password");
 
+
+
         try {
             openConnection();
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
