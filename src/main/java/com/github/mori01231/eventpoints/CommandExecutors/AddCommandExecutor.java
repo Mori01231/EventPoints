@@ -70,7 +70,12 @@ public class AddCommandExecutor implements CommandExecutor {
                             statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + addPlayerUUID + "', '" + addPoints + "');");
                             FeedBack("&e" + addPlayer + "に" + DatabaseName + "を" + addPoints + "ポイント付与しました。");
                         } else {
-                            FeedBack("&c現在" + findPlayer.getString("points") + "ポイント所持しています。");
+                            Integer points = Integer.valueOf(findPlayer.getString("points"));
+                            points = points + addPoints;
+                            statement.executeUpdate("DELETE FROM `" + DatabaseName + "` WHERE PlayerUUID = '" + addPlayerUUID + "';");
+                            statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + addPlayerUUID + "', '" + points + "');");
+                            FeedBack("&e" + addPlayer + "に" + DatabaseName + "を" + addPoints + "ポイント付与しました。");
+                            FeedBack("&e現在" + DatabaseName + "を" + points + "ポイント所持しています。");
                         }
 
                         //FeedBack("&e" + DatabaseName + "を" + addPlayer + "に" + addPoints + "ポイント付与しました。");
