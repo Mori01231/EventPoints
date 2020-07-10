@@ -20,6 +20,16 @@ commands:
     aliases: [epa,epadd]
     permission: eventpoint.add
     usage: 使用方法：/epa プレイヤー名 イベントポイント名 ポイント数 例：/epa Mori01231 lgw_summer_2020 10
+  eventpointsee:
+    description: ユーザーの所持イベントポイントを確認する。
+    aliases: [eps,epsee]
+    permission: eventpoint.see
+    usage: 使用方法：/eps プレイヤー名 イベントポイント名 例：/eps Mori01231 lgw_summer_2020
+  eventpointlist:
+    description: イベントポイントのリストを取得する。
+    aliases: [epl,eplist]
+    permission: eventpoint.list
+    usage: 使用方法：/epl
 
 
 permissions:
@@ -29,6 +39,8 @@ permissions:
       eventpoint.create: true
       eventpoint.add: true
       eventpoint.delete: true
+      eventpoint.see: true
+      eventpoint.list: true
   eventpoint.create:
     description: イベントポイントを新たに作成することが可能になる。
     default: false
@@ -37,4 +49,10 @@ permissions:
     default: false
   eventpoint.add:
     description: イベントポイントをユーザーに追加することが可能になる。
+    default: false
+  eventpoint.see:
+    description: ユーザーの所持イベントポイントを確認することが可能になる。
+    default: false
+  eventpoint.list:
+    description: イベントポイントのリストを取得することが可能になる。
     default: false

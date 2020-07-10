@@ -1,8 +1,6 @@
 package com.github.mori01231.eventpoints;
 
-import com.github.mori01231.eventpoints.CommandExecutors.AddCommandExecutor;
-import com.github.mori01231.eventpoints.CommandExecutors.CreateCommandExecutor;
-import com.github.mori01231.eventpoints.CommandExecutors.DeleteCommandExecutor;
+import com.github.mori01231.eventpoints.CommandExecutors.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
@@ -32,8 +30,10 @@ public final class EventPoints extends JavaPlugin {
         //Assign command executors
         try{
             this.getCommand("eventpointcreate").setExecutor(new CreateCommandExecutor());
-            this.getCommand("eventpointadd").setExecutor(new AddCommandExecutor());
             this.getCommand("eventpointdelete").setExecutor(new DeleteCommandExecutor());
+            this.getCommand("eventpointadd").setExecutor(new AddCommandExecutor());
+            this.getCommand("eventpointsee").setExecutor(new SeeCommandExecutor());
+            this.getCommand("eventpointlist").setExecutor(new ListCommandExecutor());
         }catch(NullPointerException e){
             getLogger().info("Command Executor does not exist");
         }
