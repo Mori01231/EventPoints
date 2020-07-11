@@ -34,7 +34,7 @@ commands:
     description: イベントポイントを変換する。
     aliases: [epc,epconvert]
     permission: eventpoint.convert
-    usage: 使用方法：/epc
+    usage: 使用方法：/epc イベントポイント名 変換方式 例：/epc lgw_summer_2020 points
 
 
 permissions:
