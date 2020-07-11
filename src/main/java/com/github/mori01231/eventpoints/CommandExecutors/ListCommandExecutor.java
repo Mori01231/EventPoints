@@ -42,11 +42,16 @@ public class ListCommandExecutor implements CommandExecutor {
                     openConnection();
                     Statement statement = connection.createStatement();
 
-                    ResultSet result = statement.executeQuery("SHOW TABLES;");
+                    ResultSet result = statement.executeQuery("show tables;");
                     if (result.next() == false) {
                         FeedBack("&cイベントポイントが一つも存在しません。");
                     } else {
-
+                        FeedBack("&e&lイベントポイント");
+                        FeedBack("&e------------------------");
+                        FeedBack(result.getString(1));
+                        while(result.next()){
+                            FeedBack(result.getString(1));
+                        }
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
