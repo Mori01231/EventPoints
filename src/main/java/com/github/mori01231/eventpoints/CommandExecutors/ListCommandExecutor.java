@@ -26,19 +26,6 @@ public class ListCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        DatabaseName = args[0];
-        String seePlayerUUID;
-        String seePlayer;
-
-
-        try {
-            seePlayerUUID = getPlayerUniqueId(args[1]).toString();
-            seePlayer = args[1];
-        }catch(Exception e){
-            FeedBack("&c" + args[1] + "という名前のプレイヤーは存在しません。");
-            return true;
-        }
-
         if ((sender instanceof Player)) {
             player = (Player) sender;
             isConsole = false;
@@ -55,17 +42,11 @@ public class ListCommandExecutor implements CommandExecutor {
                     openConnection();
                     Statement statement = connection.createStatement();
 
-                    ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
+                    ResultSet result = statement.executeQuery("SHOW TABLES;");
                     if (result.next() == false) {
-                        FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epc " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
+                        FeedBack("&cイベントポイントが一つも存在しません。");
                     } else {
-                        ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + seePlayerUUID + "';");
-                        if (findPlayer.next() == false) {
-                            FeedBack("&c" + seePlayer + "は" + DatabaseName + "を所持していません。");
-                        } else {
-                            Integer points = Integer.valueOf(findPlayer.getString("points"));
-                            FeedBack("&e現在" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
-                        }
+
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
