@@ -29,11 +29,12 @@ public final class EventPoints extends JavaPlugin {
 
         //Assign command executors
         try{
-            this.getCommand("eventpointcreate").setExecutor(new CreateCommandExecutor());
+            this.getCommand("eventpointnew").setExecutor(new NewCommandExecutor());
             this.getCommand("eventpointdelete").setExecutor(new DeleteCommandExecutor());
             this.getCommand("eventpointadd").setExecutor(new AddCommandExecutor());
             this.getCommand("eventpointsee").setExecutor(new SeeCommandExecutor());
             this.getCommand("eventpointlist").setExecutor(new ListCommandExecutor());
+            this.getCommand("eventpointconvert").setExecutor(new ConvertCommandExecutor());
         }catch(NullPointerException e){
             getLogger().info("Command Executor does not exist");
         }

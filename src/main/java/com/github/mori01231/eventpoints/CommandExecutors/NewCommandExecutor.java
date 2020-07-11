@@ -9,13 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.bukkit.Bukkit.getLogger;
 
 
-public class CreateCommandExecutor implements CommandExecutor {
+public class NewCommandExecutor implements CommandExecutor {
 
     public Connection connection;
     private String host, database, username, password;

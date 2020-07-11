@@ -7,9 +7,9 @@ description: Allows servers to create Event Points for different occasions.
 commands:
   eventpointcreate:
     description: イベントポイントを新たに作成する
-    aliases: [epc,epcreate]
-    permission: eventpoint.create
-    usage: 使用方法：/epc イベントポイント名 例：/epc lgw_summer_2020
+    aliases: [epn,epnew]
+    permission: eventpoint.new
+    usage: 使用方法：/epn イベントポイント名 例：/epn lgw_summer_2020
   eventpointdelete:
     description: イベントポイントを削除する。
     aliases: [epd,epdelete]
@@ -19,29 +19,34 @@ commands:
     description: イベントポイントをユーザーに追加する。
     aliases: [epa,epadd]
     permission: eventpoint.add
-    usage: 使用方法：/epa プレイヤー名 イベントポイント名 ポイント数 例：/epa Mori01231 lgw_summer_2020 10
+    usage: 使用方法：/epa イベントポイント名 プレイヤー名 ポイント数 例：/epa lgw_summer_2020 Mori01231 10
   eventpointsee:
     description: ユーザーの所持イベントポイントを確認する。
     aliases: [eps,epsee]
     permission: eventpoint.see
-    usage: 使用方法：/eps プレイヤー名 イベントポイント名 例：/eps Mori01231 lgw_summer_2020
+    usage: 使用方法：/eps イベントポイント名 プレイヤー名 例：/eps lgw_summer_2020 Mori01231
   eventpointlist:
     description: イベントポイントのリストを取得する。
     aliases: [epl,eplist]
     permission: eventpoint.list
     usage: 使用方法：/epl
+  eventpointconvert:
+    description: イベントポイントを変換する。
+    aliases: [epc,epconvert]
+    permission: eventpoint.convert
+    usage: 使用方法：/epc
 
 
 permissions:
   eventpoint.*:
     description: 全EventPointコマンドへのアクセス権限
     children:
-      eventpoint.create: true
+      eventpoint.new: true
       eventpoint.add: true
       eventpoint.delete: true
       eventpoint.see: true
       eventpoint.list: true
-  eventpoint.create:
+  eventpoint.new:
     description: イベントポイントを新たに作成することが可能になる。
     default: false
   eventpoint.delete:
@@ -54,5 +59,8 @@ permissions:
     description: ユーザーの所持イベントポイントを確認することが可能になる。
     default: false
   eventpoint.list:
+    description: イベントポイントのリストを取得することが可能になる。
+    default: false
+  eventpoint.convert:
     description: イベントポイントのリストを取得することが可能になる。
     default: false
