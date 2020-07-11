@@ -26,12 +26,6 @@ public class NewCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(args[0] == null){
-            FeedBack("&c作成するイベントポイントの名前を指定してください");
-            return true;
-        }
-
-        DatabaseName = args[0];
         if ((sender instanceof Player)) {
             player = (Player) sender;
             isConsole = false;
@@ -39,6 +33,13 @@ public class NewCommandExecutor implements CommandExecutor {
         else{
             isConsole = true;
         }
+
+        if(args.length == 0){
+            FeedBack("&c作成するイベントポイントの名前を指定してください");
+            return true;
+        }
+
+        DatabaseName = args[0];
 
         BukkitRunnable r = new BukkitRunnable() {
             @Override

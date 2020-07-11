@@ -25,15 +25,23 @@ public class AddCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(args[0] == null){
+        if ((sender instanceof Player)) {
+            player = (Player) sender;
+            isConsole = false;
+        } else{
+            isConsole = true;
+        }
+
+
+        if(args.length == 0){
             FeedBack("&cイベントポイントの種類を指定してください");
             return true;
         }
-        if(args[1] == null){
+        if(args.length == 1){
             FeedBack("&cプレイヤーを指定してください");
             return true;
         }
-        if(args[2] == null){
+        if(args.length == 2){
             FeedBack("&c追加するポイント数を指定してください");
             return true;
         }
@@ -55,13 +63,6 @@ public class AddCommandExecutor implements CommandExecutor {
         }catch(Exception e){
             FeedBack("&c追加するポイントは整数で指定してください。");
             return true;
-        }
-
-        if ((sender instanceof Player)) {
-            player = (Player) sender;
-            isConsole = false;
-        } else{
-            isConsole = true;
         }
 
         BukkitRunnable r = new BukkitRunnable() {

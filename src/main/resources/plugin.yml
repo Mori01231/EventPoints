@@ -5,7 +5,7 @@ authors: [Mori01231]
 description: Allows servers to create Event Points for different occasions.
 
 commands:
-  eventpointcreate:
+  eventpointnew:
     description: イベントポイントを新たに作成する
     aliases: [epn,epnew]
     permission: eventpoint.new
