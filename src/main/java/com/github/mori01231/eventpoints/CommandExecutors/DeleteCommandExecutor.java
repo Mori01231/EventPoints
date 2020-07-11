@@ -25,6 +25,11 @@ public class DeleteCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if(args[0] == null){
+            FeedBack("&c削除するイベントポイントの種類を指定してください");
+            return true;
+        }
+
         DatabaseName = args[0];
         if ((sender instanceof Player)) {
             player = (Player) sender;

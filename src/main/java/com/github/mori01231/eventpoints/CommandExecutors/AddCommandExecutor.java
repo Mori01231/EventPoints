@@ -25,6 +25,18 @@ public class AddCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if(args[0] == null){
+            FeedBack("&cイベントポイントの種類を指定してください");
+            return true;
+        }
+        if(args[1] == null){
+            FeedBack("&cプレイヤーを指定してください");
+            return true;
+        }
+        if(args[2] == null){
+            FeedBack("&c追加するポイント数を指定してください");
+            return true;
+        }
         DatabaseName = args[0];
         String addPlayerUUID;
         String addPlayer;
@@ -63,19 +75,20 @@ public class AddCommandExecutor implements CommandExecutor {
 
                     ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
                     if (result.next() == false) {
-                        FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epc " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
+                        FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
                         ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + addPlayerUUID + "';");
                         if (findPlayer.next() == false) {
                             statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + addPlayerUUID + "', '" + addPoints + "');");
                             FeedBack("&e" + addPlayer + "に" + DatabaseName + "を" + addPoints + "ポイント付与しました。");
+                            FeedBack("&e現在" + addPlayer + "は" + DatabaseName + "を合計&e&l" + addPoints + "&eポイント所持しています。");
                         } else {
                             Integer points = Integer.valueOf(findPlayer.getString("points"));
                             points = points + addPoints;
                             statement.executeUpdate("DELETE FROM `" + DatabaseName + "` WHERE PlayerUUID = '" + addPlayerUUID + "';");
                             statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + addPlayerUUID + "', '" + points + "');");
                             FeedBack("&e" + addPlayer + "に" + DatabaseName + "を&e&l" + addPoints + "&eポイント付与しました。");
-                            FeedBack("&e現在" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
+                            FeedBack("&e現在" + addPlayer + "は" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
                         }
                     }
 

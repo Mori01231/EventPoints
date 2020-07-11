@@ -26,6 +26,15 @@ public class SeeCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if(args[0] == null){
+            FeedBack("&cイベントポイントの種類を指定してください");
+            return true;
+        }
+        if(args[1] == null){
+            FeedBack("&cプレイヤーを指定してください");
+            return true;
+        }
+
         DatabaseName = args[0];
         String seePlayerUUID;
         String seePlayer;
@@ -57,14 +66,14 @@ public class SeeCommandExecutor implements CommandExecutor {
 
                     ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
                     if (result.next() == false) {
-                        FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epc " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
+                        FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
                         ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + seePlayerUUID + "';");
                         if (findPlayer.next() == false) {
-                            FeedBack("&c" + seePlayer + "は" + DatabaseName + "を所持していません。");
+                            FeedBack("&e現在" + seePlayer + "は" + DatabaseName + "を&e&l0&eポイント所持しています。");
                         } else {
                             Integer points = Integer.valueOf(findPlayer.getString("points"));
-                            FeedBack("&e現在" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
+                            FeedBack("&e現在" + seePlayer + "は" + DatabaseName + "を&e&l" + points + "&eポイント所持しています。");
                         }
                     }
 

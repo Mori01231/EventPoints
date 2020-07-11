@@ -26,6 +26,11 @@ public class NewCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if(args[0] == null){
+            FeedBack("&c作成するイベントポイントの名前を指定してください");
+            return true;
+        }
+
         DatabaseName = args[0];
         if ((sender instanceof Player)) {
             player = (Player) sender;
