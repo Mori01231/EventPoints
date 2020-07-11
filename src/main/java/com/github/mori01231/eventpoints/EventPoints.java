@@ -47,16 +47,6 @@ public final class EventPoints extends JavaPlugin {
         username = getConfig().getString("username");
         password = getConfig().getString("password");
 
-
-
-        try {
-            openConnection();
-            Statement statement = connection.createStatement();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -72,17 +62,4 @@ public final class EventPoints extends JavaPlugin {
         }
     }
 
-    public void openConnection() throws SQLException, ClassNotFoundException {
-        if (connection != null && !connection.isClosed()) {
-            return;
-        }
-
-        synchronized (this) {
-            if (connection != null && !connection.isClosed()) {
-                return;
-            }
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.username, this.password);
-        }
-    }
 }
