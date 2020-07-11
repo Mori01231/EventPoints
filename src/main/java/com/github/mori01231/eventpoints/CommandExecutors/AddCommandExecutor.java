@@ -77,8 +77,6 @@ public class AddCommandExecutor implements CommandExecutor {
                             FeedBack("&e" + addPlayer + "に" + DatabaseName + "を&e&l" + addPoints + "&eポイント付与しました。");
                             FeedBack("&e現在" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
                         }
-
-                        //FeedBack("&e" + DatabaseName + "を" + addPlayer + "に" + addPoints + "ポイント付与しました。");
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
