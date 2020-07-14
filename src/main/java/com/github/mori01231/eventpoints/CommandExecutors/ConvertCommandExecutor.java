@@ -79,10 +79,10 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
                         if(ConvertMode == "item"){
-
+                            FeedBack(ConvertItem());
                         }
                         if(ConvertMode == "points"){
-
+                            FeedBack(ConvertPoints());
                         }
                     }
 
@@ -96,6 +96,16 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
         return true;
     }
+
+    public String ConvertItem(){
+        return "Message for player";
+    }
+
+    public String ConvertPoints(){
+        return "Message for player";
+    }
+
+
 
     public void openConnection() throws SQLException, ClassNotFoundException {
 
