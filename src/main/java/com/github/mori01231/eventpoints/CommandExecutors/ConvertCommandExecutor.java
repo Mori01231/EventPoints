@@ -20,7 +20,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
     private String DatabaseName;
     private String ConvertMode;
-    private Boolean isConsole;
+    private Boolean AmountIsIndicated = true;
     Player player;
 
     @Override
@@ -42,6 +42,9 @@ public class ConvertCommandExecutor implements CommandExecutor {
         if(args.length == 1){
             FeedBack("&cポイントに変換するかアイテムに変換するか指定してください 例：/epc lgw_summer_2020 points");
             return true;
+        }
+        if(args.length == 2){
+            AmountIsIndicated = false;
         }
 
         String PlayerName = player.getName();
@@ -79,10 +82,30 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
                         if(ConvertMode == "item"){
-                            FeedBack(ConvertItem());
+                            if (AmountIsIndicated){
+                                try {
+                                    int ItemAmount = Integer.parseInt(args[2]);
+                                    //Convert <ItemAmount> Items in inventory to points
+                                }catch(Exception e){
+                                    FeedBack("&c&l変換するアイテム数は正の整数で指定してください");
+                                }
+                            }
+                            else{
+                                //Convert all Items in inventory to points
+                            }
                         }
                         if(ConvertMode == "points"){
-                            FeedBack(ConvertPoints());
+                            if (AmountIsIndicated){
+                                try {
+                                    int PointsAmount = Integer.parseInt(args[2]);
+                                    //Convert <PointsAmount> Items in inventory to points
+                                }catch(Exception e){
+                                    FeedBack("&c&l変換するアイテム数は正の整数で指定してください");
+                                }
+                            }
+                            else{
+                                //Convert as many points to Items as possible
+                            }
                         }
                     }
 
@@ -96,15 +119,6 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
         return true;
     }
-
-    public String ConvertItem(){
-        return "Message for player";
-    }
-
-    public String ConvertPoints(){
-        return "Message for player";
-    }
-
 
 
     public void openConnection() throws SQLException, ClassNotFoundException {
