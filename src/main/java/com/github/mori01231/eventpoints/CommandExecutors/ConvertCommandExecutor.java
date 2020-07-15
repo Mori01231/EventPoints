@@ -11,9 +11,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 
 import static org.bukkit.Bukkit.getLogger;
+import static org.bukkit.Bukkit.getServer;
 
 public class ConvertCommandExecutor implements CommandExecutor {
 
@@ -94,7 +96,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                                 }
                             }
                             else{
-                                //Convert all Items in inventory to points
+                                FeedBack(ConvertEventPointTickets(player));
                             }
                         }
                         if(ConvertMode == "points"){
@@ -177,6 +179,42 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
         //return the number of available slots.
         return slots;
+    }
+
+    public String ConvertEventPointTickets(Player player){
+
+        //get display name of event point ticket
+        String DisplayName = DatabaseName;
+
+        //get player inventory.
+        Inventory inv = player.getInventory();
+
+        //initializing counter for tickets and points.
+        int tickets = 0;
+        int points = 0;
+
+        //counting and deleting tickets.
+        for (ItemStack item: inv.getContents()) {
+            try{
+                if(item.getItemMeta().getDisplayName().equals(DisplayName)){
+                    tickets += item.getAmount();
+                    item.setAmount(0);
+                }
+
+            }catch (Exception e){
+            }
+        }
+
+        points = tickets;
+
+        //Give player ontime points.
+        getServer().dispatchCommand(getServer().getConsoleSender(), "epa " + DatabaseName + " " + player.getName() + " " + points);
+
+        //Create the message to be sent to the player
+        String ReturnMessage = "&b" + DatabaseName + "チケット" + tickets + "枚を" + DatabaseName + "ポイント" + points + "ポイントに変換しました。";
+
+        //Return the message to be sent to the player
+        return ReturnMessage;
     }
 
     public void FeedBack(String message){
