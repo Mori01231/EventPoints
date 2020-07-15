@@ -2,10 +2,13 @@ package com.github.mori01231.eventpoints.CommandExecutors;
 
 import com.github.mori01231.eventpoints.EventPoints;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
@@ -97,6 +100,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         if(ConvertMode == "points"){
                             if (AmountIsIndicated){
                                 try {
+                                    int MaxItems = AvailableSlots(player) * 64;
                                     int PointsAmount = Integer.parseInt(args[2]);
                                     //Convert <PointsAmount> Items in inventory to points
                                 }catch(Exception e){
@@ -104,6 +108,8 @@ public class ConvertCommandExecutor implements CommandExecutor {
                                 }
                             }
                             else{
+                                int MaxItems = AvailableSlots(player) * 64;
+
                                 //Convert as many points to Items as possible
                             }
                         }
@@ -140,6 +146,37 @@ public class ConvertCommandExecutor implements CommandExecutor {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.username, this.password);
         }
+    }
+
+    //get amount of available slots in player inventory excluding armor and offhand
+    public int AvailableSlots(Player player){
+        //get player inventory.
+        Inventory inv = player.getInventory();
+
+        //initializing counter for slots.
+        int slots=0;
+
+        //counting the number of available slots.
+        for (ItemStack item: inv.getContents()) {
+            if(item == null) {
+                slots++;
+            }
+        }
+
+        //Compensating for empty offhand slot
+        if(player.getInventory().getItemInOffHand().getType() == Material.AIR){
+            slots--;
+        }
+
+        //Compensating for empty armor slots
+        for (ItemStack item: player.getInventory().getArmorContents()){
+            if(item == null) {
+                slots--;
+            }
+        }
+
+        //return the number of available slots.
+        return slots;
     }
 
     public void FeedBack(String message){
