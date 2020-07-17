@@ -25,6 +25,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
     private String DatabaseName;
     private String ConvertMode;
+    private int currentPoints;
     private Boolean AmountIsIndicated = true;
     Player player;
 
@@ -86,34 +87,11 @@ public class ConvertCommandExecutor implements CommandExecutor {
                     if (result.next() == false) {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
-                        if(ConvertMode == "item"){
-                            if (AmountIsIndicated){
-                                try {
-                                    int ItemAmount = Integer.parseInt(args[2]);
-                                    //Convert <ItemAmount> Items in inventory to points
-                                }catch(Exception e){
-                                    FeedBack("&c&l変換するアイテム数は正の整数で指定してください");
-                                }
-                            }
-                            else{
-                                FeedBack(ConvertEventPointTickets(player));
-                            }
-                        }
-                        if(ConvertMode == "points"){
-                            if (AmountIsIndicated){
-                                try {
-                                    int MaxItems = AvailableSlots(player) * 64;
-                                    int PointsAmount = Integer.parseInt(args[2]);
-                                    //Convert <PointsAmount> Items in inventory to points
-                                }catch(Exception e){
-                                    FeedBack("&c&l変換するアイテム数は正の整数で指定してください");
-                                }
-                            }
-                            else{
-                                int MaxItems = AvailableSlots(player) * 64;
-
-                                //Convert as many points to Items as possible
-                            }
+                        ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + PlayerUUID + "';");
+                        if (findPlayer.next() == false) {
+                            currentPoints = 0;
+                        } else {
+                            Integer currentPoints = Integer.valueOf(findPlayer.getString("points"));
                         }
                     }
 
@@ -124,6 +102,8 @@ public class ConvertCommandExecutor implements CommandExecutor {
         };
 
         r.runTaskAsynchronously(EventPoints.getInstance());
+
+        FeedBack("&aYou have " + currentPoints + " points.");
 
         return true;
     }
