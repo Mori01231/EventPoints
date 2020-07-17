@@ -115,7 +115,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         } else {
                             Integer currentPoints = Integer.valueOf(findPlayer.getString("points"));
                         }
-                        ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount);
+                        FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount));
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
@@ -133,38 +133,68 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
 
 
-    public void ConvertEventPoints(Player player, int hasPoints, int mode, int convertPoints){
+    public String ConvertEventPoints(Player player, int hasPoints, int mode, int convertPoints){
 
         // item mode
         if (mode == 1){
-
-            // get player inventory.
-            Inventory inv = player.getInventory();
-
             // initializing counter for tickets and points.
             int tickets = 0;
             int points = 0;
+            int maxPoints = 0;
+
+            if(convertPoints != -1){
+                maxPoints = convertPoints;
+            }
+            // get player inventory.
+            Inventory inv = player.getInventory();
+
+
+            //Initializing the message to be sent to the player
+            String ReturnMessage;
+
+            //initializing counter for tickets and points.
+            int initialtickets = 0;
+            int UnconvertedTickets = 0;
+            int points = 0;
+
+            initialtickets = Tickets(player);
+            UnconvertedTickets = convertPoints;
+
+            if (initialtickets < convertPoints){
+                //Create the message to be sent to the player
+                ReturnMessage = "&c&lオンタイムチケットが足りません。" + ConvertTickets + "枚以上のオンタイムチケットをインベントリに入れてください。";
+
+                //Return the message to be sent to the player
+                FeedBack(ReturnMessage);
+            }
 
             //counting and deleting tickets.
             for (ItemStack item: inv.getContents()) {
                 try{
-                    if(item.getItemMeta().getDisplayName().equals(DisplayName)){
-                        tickets += item.getAmount();
-                        item.setAmount(0);
+                    if(item.getItemMeta().getDisplayName().equals(MMDisplayName)){
+                        //Full stack can be converted
+                        if (item.getAmount() <= UnconvertedTickets){
+                            UnconvertedTickets -= item.getAmount();
+                            item.setAmount(0);
+                        }
+                        //Only part of stack can be converted
+                        else{
+                            item.setAmount(item.getAmount() - UnconvertedTickets);
+                            UnconvertedTickets = 0;
+                        }
                     }
 
                 }catch (Exception e){
                 }
             }
 
-            points = tickets;
+            points = ConvertTickets * 10;
 
             //Give player ontime points.
-            getServer().dispatchCommand(getServer().getConsoleSender(), "epa " + DatabaseName + " " + player.getName() + " " + points);
+            getServer().dispatchCommand(getServer().getConsoleSender(), "points give " + player.getName() + " " + points);
 
             //Create the message to be sent to the player
-            String ReturnMessage = "&b" + DatabaseName + "チケット" + tickets + "枚を" + DatabaseName + "ポイント" + points + "ポイントに変換しました。";
-
+            ReturnMessage = "&bオンタイムチケット" + ConvertTickets + "枚をオンタイムポイント" + points + "ポイントに変換しました。";
             // Send message to player
             FeedBack(ReturnMessage);
         }
@@ -229,6 +259,33 @@ public class ConvertCommandExecutor implements CommandExecutor {
         return slots;
     }
 
+    //get amount of available slots in player inventory excluding armor and offhand
+    public int Tickets(Player player, String displayName){
+
+        //get display name of ontime ticket
+
+
+        //get player inventory.
+        Inventory inv = player.getInventory();
+
+        //initializing counter for slots.
+        int tickets=0;
+
+        //counting the number of available slots.
+        for (ItemStack item: inv.getContents()) {
+            try{
+                if(item.getItemMeta().getDisplayName().equals(displayName)){
+                    tickets += item.getAmount();
+                }
+
+            }catch (Exception e){
+            }
+        }
+
+
+        //return the number of available slots.
+        return tickets;
+    }
     public void FeedBack(String message){
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',message));
     }
