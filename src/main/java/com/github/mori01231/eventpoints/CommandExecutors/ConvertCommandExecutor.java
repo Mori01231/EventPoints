@@ -66,10 +66,10 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
         //Convert any valid ConvertModes into one ConvertMode
         ConvertMode = 0;
-        if (args[1] == "item" || args[1] == "items" || args[1] == "i"){
+        if (args[1].equalsIgnoreCase("item") || args[1].equalsIgnoreCase("items") || args[1].equalsIgnoreCase("i")){
             ConvertMode = 1;
         }
-        if (args[1] == "points" || args[1] == "point" || args[1] == "p"){
+        if (args[1].equalsIgnoreCase("points") || args[1].equalsIgnoreCase("point") || args[1].equalsIgnoreCase("p")){
             ConvertMode = 2;
         }
 
