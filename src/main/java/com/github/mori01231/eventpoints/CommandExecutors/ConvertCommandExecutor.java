@@ -113,7 +113,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         if (findPlayer.next() == false) {
                             currentPoints = 0;
                         } else {
-                            Integer currentPoints = Integer.valueOf(findPlayer.getString("points"));
+                            currentPoints = Integer.valueOf(findPlayer.getString("points"));
                         }
                         FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName));
                     }
@@ -148,7 +148,11 @@ public class ConvertCommandExecutor implements CommandExecutor {
             int UnconvertedTickets = 0;
 
 
+
             initialtickets = Tickets(player, itemDisplayName);
+            if (convertNumber == -1){
+                convertNumber = initialtickets;
+            }
             UnconvertedTickets = convertNumber;
 
             if (initialtickets < UnconvertedTickets){
