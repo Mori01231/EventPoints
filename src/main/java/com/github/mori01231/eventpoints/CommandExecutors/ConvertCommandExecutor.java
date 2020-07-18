@@ -115,6 +115,15 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         } else {
                             currentPoints = Integer.valueOf(findPlayer.getString("points"));
                         }
+                        //Actual conversion
+                        //Convert items to points
+                        if (ConvertMode == 1){
+
+                        }
+                        //Convert points to items
+                        if (ConvertMode == 2){
+
+                        }
                         FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName));
                     }
 
