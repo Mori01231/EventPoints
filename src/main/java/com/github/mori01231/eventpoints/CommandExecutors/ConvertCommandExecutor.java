@@ -115,7 +115,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         } else {
                             Integer currentPoints = Integer.valueOf(findPlayer.getString("points"));
                         }
-                        FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount));
+                        FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName));
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
@@ -126,52 +126,43 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
         r.runTaskAsynchronously(EventPoints.getInstance());
 
-        FeedBack("&aYou have " + currentPoints + " points.");
-
         return true;
     }
 
 
 
-    public String ConvertEventPoints(Player player, int hasPoints, int mode, int convertPoints){
+    public String ConvertEventPoints(Player player, int hasPoints, int mode, int convertNumber, String dbName, String itemDisplayName){
+
+        //Initializing the message to be sent to the player
+        String ReturnMessage;
 
         // item mode
         if (mode == 1){
-            // initializing counter for tickets and points.
-            int tickets = 0;
-            int points = 0;
-            int maxPoints = 0;
 
-            if(convertPoints != -1){
-                maxPoints = convertPoints;
-            }
             // get player inventory.
             Inventory inv = player.getInventory();
 
-
-            //Initializing the message to be sent to the player
-            String ReturnMessage;
-
             //initializing counter for tickets and points.
+            int points = 0;
             int initialtickets = 0;
             int UnconvertedTickets = 0;
-            int points = 0;
 
-            initialtickets = Tickets(player);
-            UnconvertedTickets = convertPoints;
 
-            if (initialtickets < convertPoints){
+            initialtickets = Tickets(player, itemDisplayName);
+            UnconvertedTickets = convertNumber;
+
+            if (initialtickets < UnconvertedTickets){
                 //Create the message to be sent to the player
-                ReturnMessage = "&c&lオンタイムチケットが足りません。" + ConvertTickets + "枚以上のオンタイムチケットをインベントリに入れてください。";
+                ReturnMessage = "&c&lオンタイムチケットが足りません。" + convertNumber + "枚以上のオンタイムチケットをインベントリに入れてください。";
 
                 //Return the message to be sent to the player
-                FeedBack(ReturnMessage);
+                return ReturnMessage;
             }
 
             //counting and deleting tickets.
             for (ItemStack item: inv.getContents()) {
                 try{
-                    if(item.getItemMeta().getDisplayName().equals(MMDisplayName)){
+                    if(item.getItemMeta().getDisplayName().equals(itemDisplayName)){
                         //Full stack can be converted
                         if (item.getAmount() <= UnconvertedTickets){
                             UnconvertedTickets -= item.getAmount();
@@ -188,22 +179,26 @@ public class ConvertCommandExecutor implements CommandExecutor {
                 }
             }
 
-            points = ConvertTickets * 10;
+            points = convertNumber;
 
             //Give player ontime points.
             getServer().dispatchCommand(getServer().getConsoleSender(), "points give " + player.getName() + " " + points);
 
             //Create the message to be sent to the player
-            ReturnMessage = "&bオンタイムチケット" + ConvertTickets + "枚をオンタイムポイント" + points + "ポイントに変換しました。";
+            ReturnMessage = "&bオンタイムチケット" + convertNumber + "枚をオンタイムポイント" + points + "ポイントに変換しました。";
             // Send message to player
-            FeedBack(ReturnMessage);
+            return ReturnMessage;
         }
 
         // points mode
         if (mode == 2){
-
+            ReturnMessage = "";
+            return ReturnMessage;
         }
 
+        else{
+            return "invalid mode";
+        }
     }
 
 
