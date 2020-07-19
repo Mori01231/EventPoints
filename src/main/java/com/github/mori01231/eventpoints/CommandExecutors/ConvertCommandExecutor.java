@@ -118,13 +118,13 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         //Actual conversion
                         //Convert items to points
                         if (ConvertMode == 1){
-
+                            int ConvertedItems = ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName);
                         }
                         //Convert points to items
                         if (ConvertMode == 2){
 
                         }
-                        FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName));
+                        //FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName));
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
@@ -140,13 +140,13 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
 
 
-    public String ConvertEventPoints(Player player, int hasPoints, int mode, int convertNumber, String dbName, String itemDisplayName){
+    public Integer ConvertEventPoints(Player player, int hasPoints, int mode, int convertNumber, String dbName, String itemDisplayName){
 
         //Initializing the message to be sent to the player
         String ReturnMessage;
 
         // item mode
-        if (mode == 1){
+        if (mode == 1) {
 
             // get player inventory.
             Inventory inv = player.getInventory();
@@ -157,60 +157,53 @@ public class ConvertCommandExecutor implements CommandExecutor {
             int UnconvertedTickets = 0;
 
 
-
             initialtickets = Tickets(player, itemDisplayName);
-            if (convertNumber == -1){
+            if (convertNumber == -1) {
                 convertNumber = initialtickets;
             }
             UnconvertedTickets = convertNumber;
 
-            if (initialtickets < UnconvertedTickets){
+            if (initialtickets < UnconvertedTickets) {
                 //Create the message to be sent to the player
                 ReturnMessage = "&c&lオンタイムチケットが足りません。" + convertNumber + "枚以上のオンタイムチケットをインベントリに入れてください。";
 
                 //Return the message to be sent to the player
-                return ReturnMessage;
+                return -1;
             }
 
             //counting and deleting tickets.
-            for (ItemStack item: inv.getContents()) {
-                try{
-                    if(item.getItemMeta().getDisplayName().equals(itemDisplayName)){
+            for (ItemStack item : inv.getContents()) {
+                try {
+                    if (item.getItemMeta().getDisplayName().equals(itemDisplayName)) {
                         //Full stack can be converted
-                        if (item.getAmount() <= UnconvertedTickets){
+                        if (item.getAmount() <= UnconvertedTickets) {
                             UnconvertedTickets -= item.getAmount();
                             item.setAmount(0);
                         }
                         //Only part of stack can be converted
-                        else{
+                        else {
                             item.setAmount(item.getAmount() - UnconvertedTickets);
                             UnconvertedTickets = 0;
                         }
                     }
 
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
             }
 
             points = convertNumber;
 
             //Give player ontime points.
-            getServer().dispatchCommand(getServer().getConsoleSender(), "points give " + player.getName() + " " + points);
+            //getServer().dispatchCommand(getServer().getConsoleSender(), "points give " + player.getName() + " " + points);
 
             //Create the message to be sent to the player
             ReturnMessage = "&bオンタイムチケット" + convertNumber + "枚をオンタイムポイント" + points + "ポイントに変換しました。";
             // Send message to player
-            return ReturnMessage;
-        }
-
-        // points mode
-        if (mode == 2){
-            ReturnMessage = "";
-            return ReturnMessage;
+            return convertNumber;
         }
 
         else{
-            return "invalid mode";
+            return -2;
         }
     }
 
