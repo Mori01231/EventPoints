@@ -96,7 +96,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
             convertAmount = -1;
         }
 
-        BukkitRunnable r = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 //This is where you should do your database interaction
@@ -109,14 +109,20 @@ public class ConvertCommandExecutor implements CommandExecutor {
                     if (result.next() == false) {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
                     } else {
+                        //Check to see if player is already registered.
                         ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + PlayerUUID + "';");
                         if (findPlayer.next() == false) {
+                            // Register player.
                             statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + PlayerUUID + "', '0');");
                             currentPoints = 0;
                         } else {
+                            // Return value of points
                             currentPoints = Integer.valueOf(findPlayer.getString("points"));
                         }
+
+
                         //Actual conversion
+
                         //Convert items to points
                         if (ConvertMode == 1){
                             int ConvertedItems = ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName);
@@ -136,20 +142,39 @@ public class ConvertCommandExecutor implements CommandExecutor {
                                 FeedBack("&e現在" + PlayerName + "は" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
                             }
                         }
+
                         //Convert points to items
                         if (ConvertMode == 2){
+                            // number of items to give
+                            int giveItems;
+                            if (currentPoints >= convertAmount){
+                                giveItems = convertAmount;
+                            }
+                            else{
+                                giveItems = -1;
+                            }
 
+
+                            String MMItemName = EventPoints.getInstance().getConfig().getString( "MMItemName");
+
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (giveItems == -1){
+                                        FeedBack("&cポイントが足りません");
+                                    }
+                                    getServer().dispatchCommand(getServer().getConsoleSender(), "mm i give " + PlayerName + " " + MMItemName + " " + giveItems);
+                                    getLogger().info(PlayerName + "にMMアイテム " + MMItemName + " を " + giveItems + " 個与えました。");
+                                }
+                            }.runTask(EventPoints.getInstance());
                         }
-                        //FeedBack(ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName));
                     }
 
                 } catch(ClassNotFoundException | SQLException e) {
                     e.printStackTrace();
                 }
             }
-        };
-
-        r.runTaskAsynchronously(EventPoints.getInstance());
+        }.runTaskAsynchronously(EventPoints.getInstance());
 
         return true;
     }
