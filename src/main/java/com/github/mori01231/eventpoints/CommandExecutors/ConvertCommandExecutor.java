@@ -128,7 +128,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                             }
                             else{
                                 Integer addPoints = ConvertedItems;
-                                Integer points = Integer.valueOf(findPlayer.getString("points"));
+                                Integer points = currentPoints;
                                 points = points + addPoints;
                                 statement.executeUpdate("DELETE FROM `" + DatabaseName + "` WHERE PlayerUUID = '" + PlayerUUID + "';");
                                 statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + PlayerUUID + "', '" + points + "');");
