@@ -111,6 +111,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
                     } else {
                         ResultSet findPlayer = statement.executeQuery("SELECT * FROM " + DatabaseName + " WHERE PlayerUUID = '" + PlayerUUID + "';");
                         if (findPlayer.next() == false) {
+                            statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + PlayerUUID + "', '0');");
                             currentPoints = 0;
                         } else {
                             currentPoints = Integer.valueOf(findPlayer.getString("points"));
@@ -119,6 +120,21 @@ public class ConvertCommandExecutor implements CommandExecutor {
                         //Convert items to points
                         if (ConvertMode == 1){
                             int ConvertedItems = ConvertEventPoints(player, currentPoints, ConvertMode, convertAmount, DatabaseName, DisplayName);
+                            // Errors
+                            if (ConvertedItems < 0){
+                                if(ConvertedItems == -1){
+                                    FeedBack("&c&lオンタイムチケットが足りません。" + convertAmount + "枚以上のオンタイムチケットをインベントリに入れてください。");
+                                }
+                            }
+                            else{
+                                Integer addPoints = ConvertedItems;
+                                Integer points = Integer.valueOf(findPlayer.getString("points"));
+                                points = points + addPoints;
+                                statement.executeUpdate("DELETE FROM `" + DatabaseName + "` WHERE PlayerUUID = '" + PlayerUUID + "';");
+                                statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + PlayerUUID + "', '" + points + "');");
+                                FeedBack("&e" + PlayerName + "に" + DatabaseName + "を&e&l" + addPoints + "&eポイント付与しました。");
+                                FeedBack("&e現在" + PlayerName + "は" + DatabaseName + "を合計&e&l" + points + "&eポイント所持しています。");
+                            }
                         }
                         //Convert points to items
                         if (ConvertMode == 2){
