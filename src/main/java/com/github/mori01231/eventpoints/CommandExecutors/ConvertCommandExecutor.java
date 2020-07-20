@@ -33,8 +33,6 @@ public class ConvertCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-
-
         //Check if person executing command is player
         if ((sender instanceof Player)) {
             player = (Player) sender;
@@ -58,7 +56,7 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
         String PlayerName = player.getName();
         String PlayerUUID = String.valueOf(player.getUniqueId());
-
+        // Get the database name
         DatabaseName = args[0];
 
         //get display name of event point ticket
@@ -99,12 +97,13 @@ public class ConvertCommandExecutor implements CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                //This is where you should do your database interaction
-
+                // database interaction
                 try {
+                    // connect
                     openConnection();
                     Statement statement = connection.createStatement();
 
+                    // check to see if database exists
                     ResultSet result = statement.executeQuery("SHOW TABLES LIKE '" + DatabaseName + "';");
                     if (result.next() == false) {
                         FeedBack("&c" + DatabaseName + "という名前のイベントポイントは存在しません。/epn " + DatabaseName + " コマンドで先にそのイベントポイントを作成してください。");
@@ -145,26 +144,42 @@ public class ConvertCommandExecutor implements CommandExecutor {
 
                         //Convert points to items
                         if (ConvertMode == 2){
+
+
                             // number of items to give
                             int giveItems;
-                            if (currentPoints >= convertAmount){
+                            if (convertAmount == -1){
+                                giveItems = currentPoints;
+                            }
+                            else if (currentPoints >= convertAmount){
                                 giveItems = convertAmount;
                             }
                             else{
                                 giveItems = -1;
+                                FeedBack("&cポイントが足りません");
                             }
-
+                            if(AvailableSlots(player) < (giveItems - giveItems % 64)){
+                                FeedBack("&cインベントリにスペースが足りません");
+                                giveItems = -1;
+                            }
 
                             String MMItemName = EventPoints.getInstance().getConfig().getString( "MMItemName");
 
+                            if(giveItems > 0){
+                                Integer points = currentPoints;
+                                points = points - giveItems;
+                                statement.executeUpdate("DELETE FROM `" + DatabaseName + "` WHERE PlayerUUID = '" + PlayerUUID + "';");
+                                statement.executeUpdate("INSERT INTO " + DatabaseName + " (PlayerUUID, points) VALUES ('" + PlayerUUID + "', '" + points + "');");
+                            }
+
+                            int finalGiveItems = giveItems;
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    if (giveItems == -1){
-                                        FeedBack("&cポイントが足りません");
+                                    if(finalGiveItems > 0){
+                                        getServer().dispatchCommand(getServer().getConsoleSender(), "mm i give " + PlayerName + " " + MMItemName + " " + finalGiveItems);
+                                        getLogger().info(PlayerName + "にMMアイテム " + MMItemName + " を " + finalGiveItems + " 個与えました。");
                                     }
-                                    getServer().dispatchCommand(getServer().getConsoleSender(), "mm i give " + PlayerName + " " + MMItemName + " " + giveItems);
-                                    getLogger().info(PlayerName + "にMMアイテム " + MMItemName + " を " + giveItems + " 個与えました。");
                                 }
                             }.runTask(EventPoints.getInstance());
                         }
