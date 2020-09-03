@@ -11,27 +11,27 @@ Create a new event point for each event. MySQL compatible.
 - [Mori01231](https://github.com/Mori01231)
 
 # commands
-- eventpointnew： イベントポイントを新たに作成する
+- ``/eventpointnew``： イベントポイントを新たに作成する
     aliases: [epn,epnew]
     permission: eventpoint.new
     usage: 使用方法：/epn イベントポイント名 例：/epn lgw_summer_2020
-- eventpointdelete： イベントポイントを削除する。
+- ``/eventpointdelete``： イベントポイントを削除する。
     aliases: [epd,epdelete]
     permission: eventpoint.delete
     usage: 使用方法：/epd イベントポイント名 例：/epd lgw_summer_2020
-- eventpointadd： イベントポイントをユーザーに追加する。
+- ``/eventpointadd``： イベントポイントをユーザーに追加する。
     aliases: [epa,epadd]
     permission: eventpoint.add
     usage: 使用方法：/epa イベントポイント名 プレイヤー名 ポイント数 例：/epa lgw_summer_2020 Mori01231 10
-- eventpointsee： ユーザーの所持イベントポイントを確認する。
+- ``/eventpointsee``： ユーザーの所持イベントポイントを確認する。
     aliases: [eps,epsee]
     permission: eventpoint.see
     usage: 使用方法：/eps イベントポイント名 プレイヤー名 例：/eps lgw_summer_2020 Mori01231
-- eventpointlist： イベントポイントのリストを取得する。
+- ``/eventpointlist``： イベントポイントのリストを取得する。
     aliases: [epl,eplist]
     permission: eventpoint.list
     usage: 使用方法：/epl
-- eventpointconvert： イベントポイントを変換する。
+- ``/eventpointconvert``： イベントポイントを変換する。
     aliases: [epc,epconvert]
     permission: eventpoint.convert
     usage: 使用方法：/epc イベントポイント名 変換方式 例：/epc lgw_summer_2020 points
