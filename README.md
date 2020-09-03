@@ -14,24 +14,24 @@ Create a new event point for each event. MySQL compatible.
 - ``/eventpointnew``： イベントポイントを新たに作成する  
     省略形： ``/epn``, ``/epnew``  
     必要パーミッション： ``eventpoint.new``  
-    usage: 使用方法：``/epn イベントポイント名`` 例：``/epn lgw_summer_2020``
+    使用方法： ``/epn イベントポイント名`` 例：``/epn lgw_summer_2020``
 - ``/eventpointdelete``： イベントポイントを削除する。  
     省略形： ``/epd``, ``/epdelete``  
     必要パーミッション： ``eventpoint.delete``  
-    usage: 使用方法：``/epd イベントポイント名`` 例：``/epd lgw_summer_2020``
+    使用方法： ``/epd イベントポイント名`` 例：``/epd lgw_summer_2020``
 - ``/eventpointadd``： イベントポイントをユーザーに追加する。  
     省略形： ``/epa``, ``/epadd``  
     必要パーミッション： ``eventpoint.add``  
-    usage: 使用方法：``/epa イベントポイント名 プレイヤー名 ポイント数`` 例：``/epa lgw_summer_2020 Mori01231 10``
+    使用方法： ``/epa イベントポイント名 プレイヤー名 ポイント数`` 例：``/epa lgw_summer_2020 Mori01231 10``
 - ``/eventpointsee``： ユーザーの所持イベントポイントを確認する。  
     省略形： ``/eps``, ``/epsee``  
     必要パーミッション： ``eventpoint.see``  
-    usage: 使用方法：``/eps イベントポイント名 プレイヤー名`` 例：``/eps lgw_summer_2020 Mori01231``
+    使用方法： ``/eps イベントポイント名 プレイヤー名`` 例：``/eps lgw_summer_2020 Mori01231``
 - ``/eventpointlist``： イベントポイントのリストを取得する。  
     省略形： ``/epl``, ``/eplist``  
     必要パーミッション： ``eventpoint.list``  
-    usage: 使用方法：``/epl``
+    使用方法： ``/epl``
 - ``/eventpointconvert``： イベントポイントを変換する。  
     省略形： ``/epc``, ``/epconvert``  
     必要パーミッション： ``eventpoint.convert``  
-    usage: 使用方法：``/epc イベントポイント名 変換方式`` 例：``/epc lgw_summer_2020 points``
+    使用方法： ``/epc イベントポイント名 変換方式`` 例：``/epc lgw_summer_2020 points``
