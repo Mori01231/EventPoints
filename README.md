@@ -10,7 +10,7 @@ Create a new event point for each event. MySQL compatible.
 # Contributors
 - [Mori01231](https://github.com/Mori01231)
 
-# commands
+# Commands
 - ``/eventpointnew``： イベントポイントを新たに作成する  
     省略形： ``/epn``, ``/epnew``  
     必要パーミッション： ``eventpoint.new``  
